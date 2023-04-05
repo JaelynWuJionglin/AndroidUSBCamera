@@ -42,13 +42,11 @@ import android.util.SparseArray;
 import androidx.annotation.RequiresApi;
 
 import com.jiangdg.utils.BuildCheck;
-import com.jiangdg.utils.HandlerThreadHandler;
 import com.jiangdg.utils.XLogWrapper;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -121,10 +119,10 @@ public final class USBMonitor {
 		if (DEBUG) XLogWrapper.v(TAG, "USBMonitor:Constructor");
 		if (listener == null)
 			throw new IllegalArgumentException("OnDeviceConnectListener should not null.");
-		mWeakContext = new WeakReference<Context>(context);
+		mWeakContext = new WeakReference<>(context);
 		mUsbManager = (UsbManager)context.getSystemService(Context.USB_SERVICE);
 		mOnDeviceConnectListener = listener;
-		mAsyncHandler = HandlerThreadHandler.createHandler(TAG);
+		mAsyncHandler = new Handler();
 		destroyed = false;
 		if (DEBUG) XLogWrapper.v(TAG, "USBMonitor:mUsbManager=" + mUsbManager);
 	}

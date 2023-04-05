@@ -29,6 +29,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -162,16 +163,17 @@ class DemoFragment : CameraFragment(), View.OnClickListener, CaptureMediaView.On
         switchLayoutClick()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun initData() {
         super.initData()
-        EventBus.with<Int>(BusKey.KEY_FRAME_RATE).observe(this, {
+        EventBus.with<Int>(BusKey.KEY_FRAME_RATE).observe(this) {
             mViewBinding.frameRateTv.text = "frame rate:  $it fps"
-        })
+        }
 
-        EventBus.with<Boolean>(BusKey.KEY_RENDER_READY).observe(this, { ready ->
-            if (! ready) return@observe
+        EventBus.with<Boolean>(BusKey.KEY_RENDER_READY).observe(this) { ready ->
+            if (!ready) return@observe
             getDefaultEffect()?.apply {
-                when(getClassifyId()) {
+                when (getClassifyId()) {
                     CameraEffect.CLASSIFY_ID_FILTER -> {
                         // check if need to set anim
                         val animId = MMKVUtils.getInt(KEY_ANIMATION, -99)
@@ -229,7 +231,7 @@ class DemoFragment : CameraFragment(), View.OnClickListener, CaptureMediaView.On
                     else -> throw IllegalStateException("Unsupported classify")
                 }
             }
-        })
+        }
     }
 
     override fun onCameraState(
@@ -432,7 +434,7 @@ class DemoFragment : CameraFragment(), View.OnClickListener, CaptureMediaView.On
 //            return
 //        }
         clickAnimation(v!!, object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 when (v) {
                     mViewBinding.lensFacingBtn1 -> {
                         getCurrentCamera()?.let { strategy ->
@@ -498,6 +500,7 @@ class DemoFragment : CameraFragment(), View.OnClickListener, CaptureMediaView.On
             }
             list.add(devName)
         }
+        Log.e("================>", "showUsbDevicesDialog ==> list.size：" + list.size)
         MaterialDialog(requireContext()).show {
             listItemsSingleChoice(
                 items = list,
@@ -718,7 +721,7 @@ class DemoFragment : CameraFragment(), View.OnClickListener, CaptureMediaView.On
             )
             translationX.duration = 600
             translationX.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationStart(animation: Animator?) {
+                override fun onAnimationStart(animation: Animator) {
                     super.onAnimationStart(animation)
                     mViewBinding.controlPanelLayout.visibility = View.VISIBLE
                 }
@@ -733,7 +736,7 @@ class DemoFragment : CameraFragment(), View.OnClickListener, CaptureMediaView.On
             )
             translationX.duration = 600
             translationX.addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     super.onAnimationEnd(animation)
                     mViewBinding.controlPanelLayout.visibility = View.INVISIBLE
                 }

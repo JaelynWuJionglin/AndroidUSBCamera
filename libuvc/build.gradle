@@ -4,7 +4,6 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 android {
 	compileSdkVersion rootProject.ext.versionCompiler
-	buildToolsVersion rootProject.ext.versionBuildTool
 
 	compileOptions {
 		sourceCompatibility rootProject.ext.javaSourceCompatibility
@@ -38,7 +37,7 @@ tasks.withType(JavaCompile) {
 }
 
 String getNdkBuildPath() {
-	def ndkBuildingDir = System.getenv("NDK_HOME")
+	def ndkBuildingDir = "G:\\sdk\\ndk\\21.0.6113669"
 	if (ndkBuildingDir==null || ndkBuildingDir.isEmpty()) {
 		Properties properties = new Properties()
 		properties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -71,5 +70,5 @@ dependencies {
     implementation fileTree(dir: new File(buildDir, 'libs'), include: '*.jar')
 	implementation "androidx.appcompat:appcompat:${androidXVersion}"
 	implementation 'com.elvishew:xlog:1.11.0'
-	implementation project(path: ':libuvccommon')
+//	implementation project(path: ':libuvccommon')
 }
