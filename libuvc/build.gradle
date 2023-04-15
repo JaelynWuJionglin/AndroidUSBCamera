@@ -3,16 +3,13 @@ apply plugin: 'com.android.library'
 import org.apache.tools.ant.taskdefs.condition.Os
 
 android {
-	compileSdkVersion rootProject.ext.versionCompiler
+	compileSdkVersion rootProject.ext.targetSdk
 
-	compileOptions {
-		sourceCompatibility rootProject.ext.javaSourceCompatibility
-		targetCompatibility rootProject.ext.javaTargetCompatibility
-	}
-
-    defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-		targetSdkVersion rootProject.ext.versionTarget
+	defaultConfig {
+		minSdkVersion rootProject.ext.minSdk
+		targetSdkVersion rootProject.ext.targetSdk
+		versionCode rootProject.ext.versionCode
+		versionName rootProject.ext.versionName
     }
 
 	lintOptions {
@@ -30,6 +27,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+	compileOptions {
+		sourceCompatibility rootProject.ext.javaSourceCompatibility
+		targetCompatibility rootProject.ext.javaTargetCompatibility
+	}
 }
 
 tasks.withType(JavaCompile) {
@@ -68,7 +70,7 @@ clean.dependsOn 'ndkClean'
 
 dependencies {
     implementation fileTree(dir: new File(buildDir, 'libs'), include: '*.jar')
-	implementation "androidx.appcompat:appcompat:${androidXVersion}"
+	implementation "androidx.appcompat:appcompat:${androidxVersion}"
 	implementation 'com.elvishew:xlog:1.11.0'
 //	implementation project(path: ':libuvccommon')
 }

@@ -26,6 +26,7 @@ import com.gyf.immersionbar.ImmersionBar
 import com.jiangdg.ausbc.utils.ToastUtils
 import com.jiangdg.ausbc.utils.Utils
 import com.jiangdg.demo.databinding.ActivityMainBinding
+import com.jiangdg.demo.my.MyDemoFragment
 
 /**
  * Demos of camera usage
@@ -43,8 +44,10 @@ class MainActivity : AppCompatActivity() {
         viewBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
 //        replaceDemoFragment(DemoMultiCameraFragment())
-        replaceDemoFragment(DemoFragment())
+//        replaceDemoFragment(DemoFragment())
 //        replaceDemoFragment(GlSurfaceFragment())
+
+        replaceDemoFragment(MyDemoFragment())
     }
 
     override fun onStart() {
@@ -93,8 +96,10 @@ class MainActivity : AppCompatActivity() {
                     return
                 }
 //                replaceDemoFragment(DemoMultiCameraFragment())
-                replaceDemoFragment(DemoFragment())
+//                replaceDemoFragment(DemoFragment())
 //                replaceDemoFragment(GlSurfaceFragment())
+
+                replaceDemoFragment(MyDemoFragment())
             }
             REQUEST_STORAGE -> {
                 val hasCameraPermission =

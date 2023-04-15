@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion rootProject.ext.versionCompiler
+    compileSdkVersion rootProject.ext.targetSdk
 
     defaultConfig {
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.versionTarget
+        minSdkVersion rootProject.ext.minSdk
+        targetSdkVersion rootProject.ext.targetSdk
         versionCode rootProject.ext.versionCode
-        versionName rootProject.ext.versionNameString
+        versionName rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -23,8 +23,8 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility rootProject.ext.javaSourceCompatibility
+        targetCompatibility rootProject.ext.javaTargetCompatibility
     }
     kotlinOptions {
         jvmTarget = '1.8'
@@ -32,7 +32,7 @@ android {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:${androidXVersion}"
+    implementation "androidx.appcompat:appcompat:${androidxVersion}"
     implementation "androidx.constraintlayout:constraintlayout:${constraintlayoutVersion}"
     implementation "com.google.android.material:material:${materialVersion}"
     api 'com.elvishew:xlog:1.11.0'

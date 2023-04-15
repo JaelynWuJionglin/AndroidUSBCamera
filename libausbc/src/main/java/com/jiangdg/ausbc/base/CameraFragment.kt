@@ -932,7 +932,7 @@ abstract class CameraFragment : BaseFragment(), ICameraStateCallBack {
             .setAspectRatioShow(true)
             .setCaptureRawImage(false)
             .setRawPreviewData(false)
-            .create();
+            .create()
     }
 
     companion object {

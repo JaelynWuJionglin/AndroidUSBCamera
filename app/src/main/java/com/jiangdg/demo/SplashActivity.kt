@@ -21,6 +21,7 @@ import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import com.jiangdg.demo.my.DemoActivity
 
 /** Splash activity
  *
@@ -37,7 +38,11 @@ class SplashActivity : AppCompatActivity() {
 
     private fun startMainActivity() {
         Handler(Looper.getMainLooper()).postDelayed({
-            Intent(this, MainActivity::class.java).apply {
+//            Intent(this, MainActivity::class.java).apply {
+//                startActivity(this)
+//                finish()
+//            }
+            Intent(this, DemoActivity::class.java).apply {
                 startActivity(this)
                 finish()
             }

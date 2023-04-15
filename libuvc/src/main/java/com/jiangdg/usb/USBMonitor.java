@@ -36,6 +36,7 @@ import android.hardware.usb.UsbInterface;
 import android.hardware.usb.UsbManager;
 import android.os.Build;
 import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.SparseArray;
 
@@ -122,7 +123,7 @@ public final class USBMonitor {
 		mWeakContext = new WeakReference<>(context);
 		mUsbManager = (UsbManager)context.getSystemService(Context.USB_SERVICE);
 		mOnDeviceConnectListener = listener;
-		mAsyncHandler = new Handler();
+		mAsyncHandler = new Handler(Looper.getMainLooper());
 		destroyed = false;
 		if (DEBUG) XLogWrapper.v(TAG, "USBMonitor:mUsbManager=" + mUsbManager);
 	}
@@ -153,9 +154,9 @@ public final class USBMonitor {
 			}
 			mCtrlBlocks.clear();
 			try {
-				mAsyncHandler.getLooper().quit();
-			} catch (final Exception e) {
-				XLogWrapper.e(TAG, "destroy:", e);
+				mAsyncHandler.removeCallbacksAndMessages(null);
+			} catch (Exception e) {
+				XLogWrapper.w(TAG, "destroy:", e);
 			}
 		}
 	}
@@ -168,7 +169,7 @@ public final class USBMonitor {
 	public synchronized void register() throws IllegalStateException {
 		if (destroyed) throw new IllegalStateException("already destroyed");
 		if (mPermissionIntent == null) {
-			if (DEBUG) XLogWrapper.i(TAG, "register:");
+			if (DEBUG) XLogWrapper.i(TAG, "register:" + Build.VERSION.SDK_INT);
 			final Context context = mWeakContext.get();
 			if (context != null) {
 				if (Build.VERSION.SDK_INT >= 31) {
@@ -566,12 +567,7 @@ public final class USBMonitor {
 				if (mOnDeviceConnectListener != null) {
 					for (int i = 0; i < n; i++) {
 						final UsbDevice device = devices.get(i);
-						mAsyncHandler.post(new Runnable() {
-							@Override
-							public void run() {
-								mOnDeviceConnectListener.onAttach(device);
-							}
-						});
+						mAsyncHandler.post(() -> mOnDeviceConnectListener.onAttach(device));
 					}
 				}
 			}
@@ -627,12 +623,7 @@ public final class USBMonitor {
 		if (destroyed) return;
 		if (DEBUG) XLogWrapper.v(TAG, "processAttach:");
 		if (mOnDeviceConnectListener != null) {
-			mAsyncHandler.post(new Runnable() {
-				@Override
-				public void run() {
-					mOnDeviceConnectListener.onAttach(device);
-				}
-			});
+			mAsyncHandler.post(() -> mOnDeviceConnectListener.onAttach(device));
 		}
 	}
 
@@ -640,12 +631,7 @@ public final class USBMonitor {
 		if (destroyed) return;
 		if (DEBUG) XLogWrapper.v(TAG, "processDettach:");
 		if (mOnDeviceConnectListener != null) {
-			mAsyncHandler.post(new Runnable() {
-				@Override
-				public void run() {
-					mOnDeviceConnectListener.onDetach(device);
-				}
-			});
+			mAsyncHandler.post(() -> mOnDeviceConnectListener.onDetach(device));
 		}
 	}
 

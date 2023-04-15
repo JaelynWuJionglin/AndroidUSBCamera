@@ -20,7 +20,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion rootProject.ext.versionCompiler
-    buildToolsVersion rootProject.ext.versionBuildTool
+//    buildToolsVersion rootProject.ext.versionBuildTool
 
     compileOptions {
         sourceCompatibility rootProject.ext.javaSourceCompatibility
