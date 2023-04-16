@@ -13,7 +13,7 @@ android {
         versionName rootProject.ext.versionName
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"
+
         externalNativeBuild {
             cmake {
                 cppFlags ""
@@ -22,14 +22,22 @@ android {
                 abiFilters 'armeabi-v7a','arm64-v8a'/*, "x86", "x86_64"*/
             }
         }
+
+        // 配置此参数，在app打包时加载混淆配置文件
+        consumerProguardFiles "proguard-rules.pro"
     }
 
     buildTypes {
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
     externalNativeBuild {
         cmake {
             path "src/main/cpp/CMakeLists.txt"
