@@ -24,6 +24,7 @@ android {
 			minifyEnabled true
 			proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 		}
+		skinTest.initWith(release)
     }
 
 	lintOptions {
@@ -46,7 +47,7 @@ tasks.withType(JavaCompile) {
 }
 
 String getNdkBuildPath() {
-	def ndkBuildingDir = "G:\\sdk\\ndk\\21.0.6113669"
+	def ndkBuildingDir = "E:\\AndroidSDK\\ndk\\21.0.6113669"
 	if (ndkBuildingDir==null || ndkBuildingDir.isEmpty()) {
 		Properties properties = new Properties()
 		properties.load(project.rootProject.file('local.properties').newDataInputStream())
