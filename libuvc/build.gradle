@@ -47,19 +47,15 @@ tasks.withType(JavaCompile) {
 }
 
 String getNdkBuildPath() {
-	def ndkBuildingDir = "E:\\AndroidSDK\\ndk\\21.0.6113669"
-	if (ndkBuildingDir==null || ndkBuildingDir.isEmpty()) {
-		Properties properties = new Properties()
-		properties.load(project.rootProject.file('local.properties').newDataInputStream())
-		ndkBuildingDir = properties.getProperty("ndk.dir")
-	}
-	def ndkBuildPath = ndkBuildingDir
+	def ndkVerPath = "\\ndk\\21.0.6113669"
+	Properties properties = new Properties()
+	properties.load(project.rootProject.file('local.properties').newDataInputStream())
+	def ndkBuildingDir = "${properties.getProperty("sdk.dir")}$ndkVerPath"
 	if (Os.isFamily(Os.FAMILY_WINDOWS)) {
-		ndkBuildPath = ndkBuildingDir + '/ndk-build.cmd'
+		return ndkBuildingDir + '/ndk-build.cmd'
 	} else {
-		ndkBuildPath = ndkBuildingDir + '/ndk-build'
+		return ndkBuildingDir + '/ndk-build'
 	}
-	return ndkBuildPath
 }
 
 task ndkBuild(type: Exec, description: 'Compile JNI source via NDK') {
